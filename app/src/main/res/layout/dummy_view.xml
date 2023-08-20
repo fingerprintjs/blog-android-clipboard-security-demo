@@ -1,0 +1,28 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:maxWidth="@dimen/toast_width"
+    android:background="@drawable/bg_toast"
+    android:elevation="@dimen/toast_elevation"
+    android:layout_marginEnd="16dp"
+    android:layout_marginStart="16dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:textColor="@color/white"
+        android:text="This app is definitely not pasting anything from your clipboard"
+        android:maxLines="2"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:textAppearance="@style/TextAppearance.Toast"
+        />
+</LinearLayout>

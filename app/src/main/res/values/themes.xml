@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ClipboardReaderAppTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorLightGray</item>
+        <item name="colorPrimaryDark">@color/colorDarkGray</item>
+        <item name="actionBarStyle">@style/Theme.ClipboardReader.ActionBar</item>
+    </style>
+</resources>
