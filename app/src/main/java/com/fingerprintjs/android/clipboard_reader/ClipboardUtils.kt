@@ -1,5 +1,6 @@
 package com.fingerprintjs.android.clipboard_reader
 
+import android.annotation.SuppressLint
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
@@ -18,15 +19,14 @@ import java.util.LinkedList
 
 class ClipboardUtils(private val applicationContext: Context) {
 
-    fun pasteTheData(clipboard: ClipboardManager): String {
-        clipboard.primaryClip?.getItemAt(0)
-        return clipboard.primaryClip?.getItemAt(0)?.text.toString()
+    private val clipboardManager: ClipboardManager = applicationContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+    fun pasteAsString(): String {
+        return clipboardManager.primaryClip?.getItemAt(0)?.text.toString()
     }
 
-    fun pasteTheDataSilently(clipboard: ClipboardManager): String {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S) {
-            return clipboard.primaryClip?.getItemAt(0)?.text.toString()
-        }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun drawOvelay() {
         if (!canDrawOverlays(applicationContext)) {
             Toast.makeText(
                 applicationContext,
@@ -40,19 +40,18 @@ class ClipboardUtils(private val applicationContext: Context) {
                 }
             }
         }
-
-        return clipboard.primaryClip?.getItemAt(0)?.text.toString()
     }
 
+    @SuppressLint("InflateParams")
     @RequiresApi(Build.VERSION_CODES.O)
-    fun drawWhiteRectangleOnTheBottomMultipleTimes() {
+    private fun drawWhiteRectangleOnTheBottomMultipleTimes() {
         val windowManager: WindowManager =
             applicationContext.getSystemService(WINDOW_SERVICE) as WindowManager
 
         val params = WindowManager.LayoutParams()
         params.height = WindowManager.LayoutParams.WRAP_CONTENT
         params.width = WindowManager.LayoutParams.WRAP_CONTENT
-        params.format = PixelFormat.TRANSLUCENT
+        params.format = PixelFormat.OPAQUE
         params.windowAnimations = android.R.style.Animation_Toast
         params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -68,14 +67,14 @@ class ClipboardUtils(private val applicationContext: Context) {
 
 
         val overlays = LinkedList<View>()
-        for (i in 0..NUMBER_OF_OVERLAYS - 1) {
+        for (i in 0 until NUMBER_OF_OVERLAYS) {
             val view = LayoutInflater.from(applicationContext).inflate(R.layout.dummy_view, null)
             overlays.add(view)
             windowManager.addView(overlays[i], params)
         }
 
         Handler(applicationContext.mainLooper).postDelayed({
-            for (i in 0..NUMBER_OF_OVERLAYS - 1) {
+            for (i in 0 until NUMBER_OF_OVERLAYS) {
                 windowManager.removeViewImmediate(overlays[i])
             }
         }, 3000)

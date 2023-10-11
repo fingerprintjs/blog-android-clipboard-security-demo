@@ -1,4 +1,4 @@
-package com.fingerprint.security.research.clipboard.clipboard_history_screen
+package com.fingerprintjs.android.clipboard_reader.clipboard_history_screen
 
 
 import android.annotation.SuppressLint
@@ -14,13 +14,14 @@ import com.fingerprintjs.android.clipboard_reader.clipboard_history_screen.adapt
 interface ClipboardHistoryView {
     fun setOnSourceButtonClickedListener(listener: () -> (Unit))
     fun setOnArticleButtonClickedListener(listener: () -> (Unit))
+
     fun setOnRefreshListener(listener: () -> Unit)
     fun stopRefreshing()
+
     fun setOnPasteButtonClickedListener(listener: () -> Unit)
-    fun setOnPasteSettingsButtonClickedListener(listener: () -> Unit)
-    fun setOnDatasetChangedListener(listener: (Int) -> Unit)
+
+    fun setOnItemRemovedListener(listener: (ClipboardItem) -> Unit)
     fun updateClipboardDataset(dataset: List<ClipboardItem>)
-    fun setOnStartStopButtonClickedListener(listener: () -> Unit)
 }
 
 class ClipboardHistoryViewImpl(
@@ -29,15 +30,12 @@ class ClipboardHistoryViewImpl(
     private val swipeRefreshLayout =
         activity.findViewById<SwipeRefreshLayout>(R.id.swipe_to_refresh)
 
-    //TODO: make the dataset sorted by timestamp
-    //TODO: handle the remove item action
     private val recycler = activity.findViewById<RecyclerView>(R.id.clipboard_history_recycler)
     private val viewManager = LinearLayoutManager(activity)
     private val dataset = ArrayList<ClipboardItem>()
     private val adapter = ClipboardItemAdapter(dataset)
 
     private val pasteBtn = activity.findViewById<View>(R.id.paste_btn)
-    private val settingsBtn = activity.findViewById<View>(R.id.paste_settings_btn)
     private val sourceButton = activity.findViewById<View>(R.id.github_button)
     private val articleButton = activity.findViewById<View>(R.id.read_more_button)
 
@@ -74,14 +72,10 @@ class ClipboardHistoryViewImpl(
         }
     }
 
-    override fun setOnPasteSettingsButtonClickedListener(listener: () -> Unit) {
-        settingsBtn.setOnClickListener {
-            listener.invoke()
+    override fun setOnItemRemovedListener(listener: (ClipboardItem) -> Unit) {
+        (recycler.adapter as ClipboardItemAdapter).setOnDeleteListener {
+            listener.invoke(it)
         }
-    }
-
-    override fun setOnDatasetChangedListener(listener: (Int) -> Unit) {
-        TODO("Not yet implemented")
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -94,9 +88,4 @@ class ClipboardHistoryViewImpl(
             adapter.notifyDataSetChanged()
         }
     }
-
-    override fun setOnStartStopButtonClickedListener(listener: () -> Unit) {
-        TODO("Not yet implemented")
-    }
-
 }

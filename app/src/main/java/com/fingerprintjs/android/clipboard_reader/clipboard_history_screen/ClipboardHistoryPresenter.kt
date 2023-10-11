@@ -1,12 +1,9 @@
-package com.fingerprint.security.research.clipboard.clipboard_history_screen
+package com.fingerprintjs.android.clipboard_reader.clipboard_history_screen
 
 
-import android.os.Parcelable
 import com.fingerprintjs.android.clipboard_reader.ARTICLE_PAGE_URL
-import com.fingerprintjs.android.clipboard_reader.ClipboardReaderService
+import com.fingerprintjs.android.clipboard_reader.ClipboardInfoProvider
 import com.fingerprintjs.android.clipboard_reader.GITHUB_PAGE_URL
-import com.fingerprintjs.android.clipboard_reader.clipboard_history_screen.adapter.ClipboardItem
-import kotlinx.parcelize.Parcelize
 
 
 interface ClipboardHistoryPresenter {
@@ -15,40 +12,19 @@ interface ClipboardHistoryPresenter {
     fun attachView(view: ClipboardHistoryView)
     fun detachView()
 
-    fun onSaveState(): Parcelable
-
     fun attachRouter(router: ClipboardHistoryRouter)
     fun detachRouter()
-
-    fun attachClipboardService(service: ClipboardReaderService)
-    fun detachClipboardService()
 }
 
-
-@Parcelize
-private class ViewState(
-    val clipboardHistory: List<ClipboardItem>?
-) : Parcelable
-
-
 class ClipboardHistoryPresenterImpl(
-    state: Parcelable?
+    private val clipboardInfoProvider: ClipboardInfoProvider
 ) : ClipboardHistoryPresenter {
 
     private var view: ClipboardHistoryView? = null
     private var router: ClipboardHistoryRouter? = null
-    private var service: ClipboardReaderService? = null
-
-    override fun onSaveState(): Parcelable {
-        return ViewState(
-            service?.getClipboardHistory()
-        )
-    }
 
     override fun update() {
-        service?.getClipboardHistory()?.let {
-            view?.updateClipboardDataset(it)
-        }
+        view?.updateClipboardDataset(clipboardInfoProvider.getClipboardHistory())
     }
 
     override fun attachView(view: ClipboardHistoryView) {
@@ -58,6 +34,7 @@ class ClipboardHistoryPresenterImpl(
 
     private fun subscribeToView() {
         view?.apply {
+            updateClipboardDataset(clipboardInfoProvider.getClipboardHistory())
             setOnArticleButtonClickedListener {
                 router?.openLink(ARTICLE_PAGE_URL)
             }
@@ -68,11 +45,14 @@ class ClipboardHistoryPresenterImpl(
                 router?.refresh()
                 stopRefreshing()
             }
+            setOnItemRemovedListener {
+                clipboardInfoProvider.removeClipboardItem(it)
+            }
             setOnPasteButtonClickedListener {
-                service?.pasteClipboardData()
-                service?.getClipboardHistory()?.let {
-                    updateClipboardDataset(it)
-                }
+                clipboardInfoProvider.pasteClipboardData()
+            }
+            clipboardInfoProvider.setOnCliboardHistoryChangedListener {
+                updateClipboardDataset(it)
             }
         }
     }
@@ -87,13 +67,5 @@ class ClipboardHistoryPresenterImpl(
 
     override fun detachRouter() {
         this.router = null
-    }
-
-    override fun attachClipboardService(service: ClipboardReaderService) {
-        this.service = service
-    }
-
-    override fun detachClipboardService() {
-        this.service = null
     }
 }

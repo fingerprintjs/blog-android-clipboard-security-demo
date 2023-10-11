@@ -13,7 +13,8 @@
         <TextView
             android:id="@+id/clipboard_item_value"
             style="@style/TextAppearance.AppCompat.Large"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="32dp"
             android:layout_height="wrap_content"
             android:layout_gravity="start|top"
             tools:text="some copied text"
@@ -22,7 +23,7 @@
         <TextView
             android:id="@+id/clipboard_item_timestamp"
             style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|bottom"
             tools:text="2021-01-01T00:00:00Z"

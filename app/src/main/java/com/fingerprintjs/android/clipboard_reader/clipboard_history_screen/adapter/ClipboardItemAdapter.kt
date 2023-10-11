@@ -10,8 +10,10 @@ class ClipboardItemAdapter(
     private val dataset: ArrayList<ClipboardItem>
 ) : RecyclerView.Adapter<ClipboardItemAdapter.ClipboardItemViewHolder>() {
 
-    class ClipboardItemViewHolder(val ClipbpardItemView: ClipboardItemViewImpl) :
-        RecyclerView.ViewHolder(ClipbpardItemView)
+    private var onItemDeleteListener: ((ClipboardItem) -> (Unit))? = null
+
+    class ClipboardItemViewHolder(val clipboardItemView: ClipboardItemViewImpl) :
+        RecyclerView.ViewHolder(clipboardItemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClipboardItemViewHolder {
         val clipboardItemView =
@@ -19,20 +21,20 @@ class ClipboardItemAdapter(
                 .inflate(R.layout.clipboard_item, parent, false) as ClipboardItemViewImpl
 
         return ClipboardItemViewHolder(
-            ClipbpardItemView = clipboardItemView
+            clipboardItemView = clipboardItemView
         )
     }
 
     override fun onBindViewHolder(holder: ClipboardItemViewHolder, position: Int) {
         val item = dataset[position]
-        holder.ClipbpardItemView.setTimestamp(item.unixTimestamp)
-        holder.ClipbpardItemView.setValue(item.value)
-        holder.ClipbpardItemView.setOnClickListener {
-            dataset.removeAt(position)
-            notifyItemRemoved(position)
-        }
+        holder.clipboardItemView.setTimestamp(item.unixTimestamp)
+        holder.clipboardItemView.setValue(item.value)
+        holder.clipboardItemView.setOnDeleteClickListener { onItemDeleteListener?.invoke(item) }
     }
 
     override fun getItemCount() = dataset.size
 
+    fun setOnDeleteListener(listener: ((ClipboardItem) -> (Unit))) {
+        this.onItemDeleteListener = listener
+    }
 }

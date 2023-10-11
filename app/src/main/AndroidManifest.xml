@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fingerprintjs.android.clipboard_reader">
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
@@ -21,16 +20,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.fingerprint.security.research.clipboard.clipboard_history_screen.ClipboardHistoryActivity" />
+        <activity android:name=".clipboard_history_screen.ClipboardHistoryActivity" />
         <activity
             android:name="com.fingerprintjs.android.clipboard_reader.TermsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <service android:name=".ClipboardReaderForegroundService"/>
     </application>
 
     <queries>
         <intent>
-            <action android:name="android.intent.action.VIEW" />
+            <action android:name="android.intent.action.MAIN" />
         </intent>
     </queries>
 </manifest>

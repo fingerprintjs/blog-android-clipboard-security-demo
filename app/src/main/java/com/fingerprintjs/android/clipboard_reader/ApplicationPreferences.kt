@@ -6,7 +6,6 @@ import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.fingerprintjs.android.clipboard_reader.clipboard_history_screen.adapter.ClipboardItem
-import java.lang.StringBuilder
 
 
 interface ApplicationPreferences {
@@ -32,7 +31,6 @@ class ApplicationPreferencesImpl(context: Context) : ApplicationPreferences {
     @SuppressLint("ApplySharedPref")
     override fun setClipboardHistory(history: List<ClipboardItem>) {
         synchronized(this) {
-            val sb = StringBuilder()
             preferences
                 .edit()
                 .clear()
