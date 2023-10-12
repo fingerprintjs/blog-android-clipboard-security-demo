@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorLightGray">
 
     <ScrollView
@@ -42,11 +42,13 @@
 
             <FrameLayout
                 android:id="@+id/get_started_button"
-                android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:foreground="@drawable/btn_ripple">
+
                 <TextView
                     style="@style/TextAppearance.MaterialComponents.Button"
                     android:layout_width="match_parent"
@@ -58,16 +60,6 @@
                     android:textAlignment="center"
                     android:textColor="@color/white" />
             </FrameLayout>
-
-            <TextView
-                android:id="@+id/terms_btn"
-                android:layout_marginBottom="32dp"
-                style="@style/TextAppearance.MaterialComponents.Caption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="@string/agreement"
-                android:textAlignment="center" />
-
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="colors_height">152dp</dimen>
-    <dimen name="wallpaper_height">304dp</dimen>
     <dimen name="toast_y_offset">48dp</dimen>
     <dimen name="toast_width">300dp</dimen>
     <dimen name="toast_text_size">14sp</dimen>

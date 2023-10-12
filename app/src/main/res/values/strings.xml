@@ -2,8 +2,7 @@
     <string name="app_name">Silent Clipboard Reader</string>
     <string name="read_more_txt">Read more</string>
     <string name="source_code_btn_text">Source</string>
-    <string name="demo_description">This app demonstrates insecurity of the Clipboard mechanism on Android and allows you check the information you store in the clipboard. The app is not sending data anywhere and works only locally. Source code is open. Works on every Android version starting from 6.0, requires SYSTEM_ALERT_WINDOW permission for Android 8.0+.</string>
-    <string name="agreement">by clicking this button I agree to the terms.</string>
+    <string name="demo_description">This app demonstrates insecurity of the Clipboard mechanism on Android and allows you check if the information you store in the clipboard may be copied without your notice. The app is not sending data anywhere and works only locally. Source code is open. Works on every Android version starting from 6.0, requires SYSTEM_ALERT_WINDOW permission for Android 12+.</string>
     <string name="get_started_btn_text">Get started</string>
     <string name="paste_btn_text">paste</string>
 </resources>
