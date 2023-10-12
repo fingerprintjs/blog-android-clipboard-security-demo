@@ -21,9 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".clipboard_history_screen.ClipboardHistoryActivity" />
-        <activity
-            android:name="com.fingerprintjs.android.clipboard_reader.TermsActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
     <queries>
