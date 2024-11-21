@@ -3,4 +3,4 @@ The source code of the demo application that bypasses a "Pasted from the clipboa
 
 This repository is created for research and educational purposes only. 
 
-Consider reading the original [article](https://fingerprintjs.com/blog/android-14-clipboard-manager-security-issue/) about research.
+Consider reading the original [article](https://fingerprint.com/blog/android-14-clipboard-security-leak/) about research.
